@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center text-primary fw-bold mb-4">📅 My Turf Bookings</h2>
+
+    <div class="row">
+        {% for booking in bookings %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <!-- Turf Image -->
+                    {% if booking.turf.image %}
+                        <img src="{{ booking.turf.image.url }}" class="card-img-top" alt="{{ booking.turf.name }}">
+                    {% else %}
+                        <img src="https://i.pinimg.com/236x/fe/0c/f1/fe0cf14833bfaee7a719cc0446504f93.jpg" class="card-img-top" alt="Turf Image">
+                    {% endif %}
+
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold text-primary">{{ booking.turf.name }}</h5>
+                        <p class="card-text text-muted"><i class="fas fa-map-marker-alt text-danger"></i> {{ booking.turf.location }}</p>
+                        <p class="card-text"><i class="far fa-calendar-alt text-success"></i> <strong>Date:</strong> {{ booking.booking_date }}</p>
+                        <p class="card-text"><i class="far fa-clock text-info"></i> <strong>Time:</strong> {{ booking.start_time }} - {{ booking.end_time }}</p>
+                        <p class="card-text">
+                            <i class="fas fa-check-circle"></i> 
+                            <strong>Status:</strong> 
+                            <span class="badge 
+                                {% if booking.status == 'Confirmed' %} bg-success
+                                {% elif booking.status == 'Pending' %} bg-warning text-dark
+                                {% elif booking.status == 'Cancelled' %} bg-danger
+                                {% else %} bg-secondary {% endif %}">
+                                {{ booking.status }}
+                            </span>
+                        </p>
+                    </div>
+
+                    <div class="card-footer bg-light text-center">
+                        <a href="{% url 'index' %}" class="btn btn-outline-primary btn-sm px-3">Explore More Turfs</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">No bookings found. Start by booking a turf!</p>
+                <a href="{% url 'index' %}" class="btn btn-primary px-4">Find a Turf</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- FontAwesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}

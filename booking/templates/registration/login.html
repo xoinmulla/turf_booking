@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="card shadow-lg border-0 p-4 rounded-4" style="max-width: 420px; width: 100%; backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.8);">
+        <div class="card-body">
+            <h2 class="text-center mb-4 fw-bold text-primary">Welcome Back</h2>
+            
+            <form method="post" class="needs-validation">
+                {% csrf_token %}
+
+                {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">{{ field.label }}</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light">
+                                {% if field.name == "username" %}
+                                    <i class="fas fa-user"></i>
+                                {% elif field.name == "password" %}
+                                    <i class="fas fa-lock"></i>
+                                {% endif %}
+                            </span>
+                            {{ field }}
+                        </div>
+                        {% for error in field.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+
+                <button type="submit" class="btn btn-primary w-100 fw-bold">Login</button>
+            </form>
+
+            <p class="text-center mt-3">
+                Don’t have an account? 
+                <a href="{% url 'signup' %}" class="fw-bold text-primary">Sign Up</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- FontAwesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
